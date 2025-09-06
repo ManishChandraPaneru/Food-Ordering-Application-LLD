@@ -4,7 +4,7 @@ using namespace std;
 
 int main()
 {
-  cout << "=== WELCOME TO TOMATO FOOD DELIVERY ===" << endl;
+  cout << "=== WELCOME TO FOODIE FOOD DELIVERY ===" << endl;
 
   // Create TomatoApp Object
   TomatoApp *tomato = new TomatoApp();
@@ -91,6 +91,6 @@ int main()
   delete user;
   delete user2;
 
-  cout << "\nThank you for using TOMATO!" << endl;
+  cout << "\nThank you for using FOODIE!" << endl;
   return 0;
 }
