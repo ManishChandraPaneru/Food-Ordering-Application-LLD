@@ -18,52 +18,27 @@ private:
 
 public:
     Restaurant(const string &name, const string &location)
-    {
-        this->name = name;
-        this->location = location;
-        this->restaurantId = ++nextRestaurantId;
-    }
+        : name(name), location(location), restaurantId(++nextRestaurantId) {}
 
     ~Restaurant()
     {
-        cout << "Destroying Restaurant: " << name << ", and clearing its menu." << endl;
         menu.clear();
     }
 
-    // Getters and setters
-    string getName() const
-    {
-        return name;
-    }
+    // Getters
+    string getName() const { return name; }
+    string getLocation() const { return location; }
+    int getId() const { return restaurantId; }
+    const vector<MenuItem> &getMenu() const { return menu; }
 
-    void setName(const string &n)
-    {
-        name = n;
-    }
+    // Setters
+    void setName(const string &n) { name = n; }
+    void setLocation(const string &loc) { location = loc; }
 
-    string getLocation() const
-    {
-        return location;
-    }
-
-    void setLocation(const string &loc)
-    {
-        location = loc;
-    }
-
+    // Menu operations
     void addMenuItem(const MenuItem &item)
     {
         menu.push_back(item);
-    }
-
-    const vector<MenuItem> &getMenu() const
-    {
-        return menu;
-    }
-
-    int getId() const
-    {
-        return restaurantId;
     }
 
     MenuItem *findMenuItem(const string &itemCode)
@@ -76,6 +51,18 @@ public:
             }
         }
         return nullptr;
+    }
+
+    bool hasMenuItem(const string &itemCode) const
+    {
+        for (const auto &item : menu)
+        {
+            if (item.getCode() == itemCode)
+            {
+                return true;
+            }
+        }
+        return false;
     }
 };
 

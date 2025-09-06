@@ -26,13 +26,13 @@ public:
     if (orderType == "Delivery")
     {
       auto deliveryOrder = new DeliveryOrder();
-      deliveryOrder->setUserAddress(user->getAddress());
+      deliveryOrder->setDeliveryAddress(user->getAddress());
       order = deliveryOrder;
     }
     else
     {
       auto pickupOrder = new PickupOrder();
-      pickupOrder->setRestaurantAddress(restaurant->getLocation());
+      pickupOrder->setPickupLocation(restaurant->getLocation());
       order = pickupOrder;
     }
     order->setUser(user);
