@@ -1,52 +1,70 @@
 #ifndef MENUITEM_H
 #define MENUITEM_H
 
-#include<iostream>
-#include<string>
+#include <iostream>
+#include <string>
 
 using namespace std;
 
-class MenuItem{
-  private:
-    string  id;
-    string dishName;
-    double price;
+class MenuItem
+{
+private:
+  string id;
+  string dishName;
+  double price;
 
-  public:
-    MenuItem(const string &id,const string &dishName,double price){
-      this->id=id;
-      this->dishName=dishName;
-      this->price=price;
-    }
+public:
+  MenuItem(const string &id, const string &dishName, double price)
+  {
+    this->id = id;
+    this->dishName = dishName;
+    this->price = price;
+  }
 
-    string getId() const{
-      return id;
-    }
+  string getId() const
+  {
+    return id;
+  }
 
-    void setId(const string &newId){
-      id=newId;
-      cout<<"Id updated successfully."<<endl;
-      return;
-    }
+  string getCode() const
+  {
+    return id; // Same as getId for compatibility
+  }
 
-    string getDishName() const{
-      return dishName;
-    }
+  string getName() const
+  {
+    return dishName; // Same as getDishName for compatibility
+  }
 
-    void setDishName(const string &newName){
-      dishName=newName;
-      cout<<"Name updated successfully."<<endl;
-      return;
-    }
+  void setId(const string &newId)
+  {
+    id = newId;
+    cout << "Id updated successfully." << endl;
+    return;
+  }
 
-    double getPrice() const{
-      return price;
-    }
+  string getDishName() const
+  {
+    return dishName;
+  }
 
-    void setPrice(double newPrice){
-      price=newPrice;
-      cout<<"Price updated successfully.";
-      return ;
-    }
+  void setDishName(const string &newName)
+  {
+    dishName = newName;
+    cout << "Name updated successfully." << endl;
+    return;
+  }
+
+  double getPrice() const
+  {
+    return price;
+  }
+
+  void setPrice(double newPrice)
+  {
+    price = newPrice;
+    cout << "Price updated successfully.";
+    return;
+  }
 };
 #endif
