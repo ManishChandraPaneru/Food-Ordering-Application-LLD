@@ -1,0 +1,173 @@
+@startuml FOODIE
+' skinparam to improve the look and feel
+skinparam classAttributeIconSize 0
+skinparam style strictuml
+skinparam class {
+    ArrowColor #2688d4
+    BorderColor #2688d4
+    BackgroundColor #f0f8ff
+}
+skinparam note {
+    BorderColor #2688d4
+    BackgroundColor #f0f8ff
+}
+
+title Foodie App - Class Diagram
+
+class User {
+  -id: int
+  -name: string
+  -address: string
+  -cart: Cart*
+  +User(id, name, address)
+  +getId(): int
+  +getName(): string
+  +getAddress(): string
+  +getCart(): Cart*
+  +setName(name)
+  +setAddress(address)
+}
+
+class Cart {
+  -restaurant: Restaurant*
+  -items: vector<MenuItem>
+  +addItem(item)
+  +removeItem(itemCode)
+  +clear()
+  +getItems(): const vector<MenuItem>&
+  +getRestaurant(): Restaurant*
+  +isEmpty(): bool
+  +getItemCount(): size_t
+  +getTotalCost(): double
+  +setRestaurant(r)
+}
+
+class MenuItem {
+  -id: string
+  -dishName: string
+  -price: double
+  +MenuItem(id, dishName, price)
+  +getId(): string
+  +getName(): string
+  +getPrice(): double
+}
+
+class Restaurant {
+  -restaurantId: int
+  -name: string
+  -location: string
+  -menu: vector<MenuItem>
+  +Restaurant(name, location)
+  +getName(): string
+  +getLocation(): string
+  +getMenu(): const vector<MenuItem>&
+  +addMenuItem(item)
+  +findMenuItem(itemCode): MenuItem*
+}
+
+abstract class Order {
+  #orderId: int
+  #user: User*
+  #restaurant: Restaurant*
+  #items: vector<MenuItem>
+  #paymentStrategy: PaymentStrategy*
+  #total: double
+  #scheduled: string
+  +virtual getType(): string = 0
+  +setUser(user)
+  +setRestaurant(restaurant)
+  +setItems(items)
+  +setPaymentStrategy(strategy)
+  +setTotal(total)
+  +setScheduledTime(time)
+}
+
+class DeliveryOrder extends Order {
+  -deliveryAddress: string
+  -deliveryFee: double
+  +calculateTotal(): double
+}
+
+class PickupOrder extends Order {
+  -pickupLocation: string
+  -isReady: bool
+}
+
+abstract class OrderFactory {
+  +virtual createOrder(...): Order* = 0
+}
+
+class NowOrderFactory extends OrderFactory {
+  +createOrder(...): Order*
+}
+
+class ScheduledOrderFactory extends OrderFactory {
+  +createOrder(...): Order*
+}
+
+abstract class PaymentStrategy {
+  +virtual pay(amount): void = 0
+}
+
+class CardPaymentStrategy extends PaymentStrategy {
+  +pay(amount): void
+}
+
+class UPIStrategy extends PaymentStrategy {
+  +pay(amount): void
+}
+
+class OrderManager {
+  -orders: vector<Order*>
+  +placeOrder(user, orderType, schedule): Order*
+  +getOrder(orderId): Order*
+}
+
+class RestaurantManager {
+  -restaurants: vector<Restaurant*>
+  +searchRestaurant(location): vector<Restaurant*>
+  +getRestaurantById(id): Restaurant*
+}
+
+class NotificationService {
+  +sendNotification(user, message): void
+}
+
+class FoodieApp {
+  -restaurantManager: RestaurantManager
+  -orderManager: OrderManager
+  +initializeRestaurants()
+  +searchRestaurants(location)
+  +selectRestaurant(user, restaurant)
+  +addToCart(user, itemCode)
+  +placeOrder(user, orderType, paymentStrategy, schedule)
+}
+
+' Relationships
+FoodieApp o-- RestaurantManager
+FoodieApp o-- OrderManager
+User "1" *-- "1" Cart
+Restaurant "1" *-- "many" MenuItem
+Cart o-- Restaurant
+Cart "1" *-- "many" MenuItem
+Order o-- User
+Order o-- Restaurant
+Order o-- PaymentStrategy
+Order "1" *-- "many" MenuItem
+OrderManager "1" *-- "many" Order
+RestaurantManager "1" *-- "many" Restaurant
+
+OrderFactory <|.. NowOrderFactory
+OrderFactory <|.. ScheduledOrderFactory
+OrderManager ..> OrderFactory
+
+PaymentStrategy <|.. CardPaymentStrategy
+PaymentStrategy <|.. UPIStrategy
+
+OrderManager ..> NotificationService
+FoodieApp ..> User
+FoodieApp ..> Cart
+FoodieApp ..> Restaurant
+FoodieApp ..> Order
+
+@enduml
