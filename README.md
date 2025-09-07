@@ -1,4 +1,4 @@
-# TOMATO Food Delivery System
+# FOODIE Food Delivery System
 
 A complete C++ food delivery application demonstrating multiple design patterns and object-oriented programming concepts.
 
